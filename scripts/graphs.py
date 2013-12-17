@@ -11,7 +11,7 @@ if __name__ == '__main__':
     parser.add_argument('-g', '--graphite_server')
     parser.add_argument('-n', '--test_name')
     parser.add_argument('-f', '--from_value')
-    parser.add_argument('-m', '--db_hostname')
+    parser.add_argument('-m', '--db_hostname', nargs='+')
     parser.add_argument('-d', '--db_datadisk', default='xvde')
     parser.add_argument('-w', '--db_network', default='eth1')
     parser.add_argument('-u', '--until_value', default=None)
@@ -24,7 +24,8 @@ if __name__ == '__main__':
         'test_name': args.test_name,
         'from_value': args.from_value,
         'until_value': args.until_value,
-        'db_hostname': args.db_hostname,
+        'db_hostnames': args.db_hostname,
+        'db_graph_width': 800/len(args.db_hostname),
         'db_datadisk': args.db_datadisk,
         'db_network': args.db_network,
         'mysql': args.mysql,

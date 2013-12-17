@@ -4,31 +4,38 @@
     <title>{{test_name}}</title>
 </head>
 <body>
-
-<div style="float: left">
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(stats.gauges.{{test_name}}.events_per_second,'events_per_second')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+{% for db_hostname in db_hostnames %}
+<div style="float: left; text-align: center">
+    {{db_hostname}}
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(servers.{{db_hostname}}.memory.MemTotal,'total_mem')&target=alias(servers.{{db_hostname}}.memory.MemFree,'free_mem')&target=alias(servers.{{db_hostname}}.memory.Active,'active_mem')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(stats.gauges.{{test_name}}.events_per_second,'events_per_second')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(servers.{{db_hostname}}.iostat.{{db_datadisk}}.read_await,'disk_read_await')&target=alias(servers.{{db_hostname}}.iostat.{{db_datadisk}}.write_await,'disk_write_await')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(servers.{{db_hostname}}.memory.MemTotal,'total_mem')&target=alias(servers.{{db_hostname}}.memory.MemFree,'free_mem')&target=alias(servers.{{db_hostname}}.memory.Active,'active_mem')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(servers.{{db_hostname}}.loadavg.15,'load_avg_15')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(servers.{{db_hostname}}.iostat.{{db_datadisk}}.read_await,'disk_read_await')&target=alias(servers.{{db_hostname}}.iostat.{{db_datadisk}}.write_await,'disk_write_await')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(servers.{{db_hostname}}.network.{{db_network}}.rx_megabit,'net_rx_megabit')&target=alias(servers.{{db_hostname}}.network.{{db_network}}.tx_megabit,'net_tx_megabit')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(servers.{{db_hostname}}.loadavg.15,'load_avg_15')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(stats.gauges.{{test_name}}.total_events,'total_events')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(servers.{{db_hostname}}.network.{{db_network}}.rx_megabit,'net_rx_megabit')&target=alias(servers.{{db_hostname}}.network.{{db_network}}.tx_megabit,'net_tx_megabit')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <br />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(stats.gauges.{{test_name}}.total_events,'total_events')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
 </div>
+{% endfor %}
 
 {% if mysql %}
-<div style="float: left">
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(stats.gauges.{{test_name}}.events_per_second,'events_per_second')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+{% for db_hostname in db_hostnames %}
+<div style="float: left; text-align: center">
+    {{db_hostname}} - MySQL
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(servers.{{db_hostname}}.mysql.Innodb_bp_pages_read,'bp_pages_read')&target=alias(servers.{{db_hostname}}.mysql.Innodb_bp_pages_written,'bp_pages_written')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(stats.gauges.{{test_name}}.events_per_second,'events_per_second')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(servers.{{db_hostname}}.mysql.Innodb_reads_per_sec,'reads_per_sec')&target=alias(servers.{{db_hostname}}.mysql.Innodb_writes_per_sec,'writes_per_sec')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(servers.{{db_hostname}}.mysql.Innodb_bp_pages_read,'bp_pages_read')&target=alias(servers.{{db_hostname}}.mysql.Innodb_bp_pages_written,'bp_pages_written')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
     <br />
-    <img src="http://{{graphite_server}}/render/?width=800&height=150&target=alias(servers.{{db_hostname}}.mysql.Innodb_bp_modified_pages,'bp_modified_pages')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(servers.{{db_hostname}}.mysql.Innodb_reads_per_sec,'reads_per_sec')&target=alias(servers.{{db_hostname}}.mysql.Innodb_writes_per_sec,'writes_per_sec')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
+    <br />
+    <img src="http://{{graphite_server}}/render/?width={{db_graph_width}}&height=150&target=alias(servers.{{db_hostname}}.mysql.Innodb_bp_modified_pages,'bp_modified_pages')&from={{from_value}}{% if until_value %}&until={{until_value}}{% endif %}" />
 </div>
+{% endfor %}
 {% endif %}
 
 {% if postgres %}
